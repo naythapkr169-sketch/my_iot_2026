@@ -12,146 +12,99 @@
             --card-bg: #1a1f2e;
             --item-bg: #22283a;
             --neon-cyan: #00ffff;
+            --neon-green: #00ff66;
+            --neon-red: #ff3366;
             --text-main: #ffffff;
             --text-muted: #8e95a5;
         }
 
         body {
-            margin: 0;
-            padding: 20px;
-            background-color: var(--bg-color);
-            color: var(--text-main);
+            margin: 0; padding: 20px;
+            background-color: var(--bg-color); color: var(--text-main);
             font-family: 'Kanit', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; overflow-x: hidden;
         }
 
         .container {
-            background-color: var(--card-bg);
-            width: 100%;
-            max-width: 400px;
-            border-radius: 20px;
-            padding: 30px 20px;
-            box-sizing: border-box;
+            background-color: var(--card-bg); width: 100%; max-width: 400px;
+            border-radius: 20px; padding: 30px 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         /* ส่วนหัว Header */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
+        .header { text-align: center; margin-bottom: 30px; }
         .header h1 {
-            margin: 0;
-            font-size: 28px;
-            color: var(--neon-cyan);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.6), 0 0 20px rgba(0, 255, 255, 0.4);
+            margin: 0; font-size: 28px; color: var(--neon-cyan);
+            text-transform: uppercase; letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
         }
-
-        .header p {
-            margin: 5px 0 0 0;
-            font-size: 14px;
-            color: var(--text-main);
-        }
+        .header p { margin: 5px 0 0 0; font-size: 14px; color: var(--text-main); }
 
         /* ส่วนสวิตช์ควบคุม */
         .channel-item {
-            background-color: var(--item-bg);
-            border-radius: 15px;
-            padding: 15px 20px;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background-color: var(--item-bg); border-radius: 15px;
+            padding: 15px 20px; margin-bottom: 15px;
+            display: flex; justify-content: space-between; align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        /* เอฟเฟกต์ตอนเปิดไฟให้กล่องสว่างขึ้นนิดนึง */
+        .channel-item.active {
+            box-shadow: inset 2px 0 0px var(--neon-cyan);
+            background-color: #272e42;
         }
 
         .channel-label {
-            font-size: 16px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-size: 16px; font-weight: 500;
+            display: flex; align-items: center; gap: 10px;
         }
 
-        /* ออกแบบปุ่ม Toggle Switch */
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 30px;
+        /* ป้ายสถานะ เปิด/ปิด */
+        .status-badge {
+            font-size: 12px; padding: 2px 8px; border-radius: 10px;
+            font-weight: 600; margin-left: 5px; transition: 0.3s;
         }
+        .status-off { background-color: rgba(255, 51, 102, 0.2); color: var(--neon-red); }
+        .status-on { background-color: rgba(0, 255, 102, 0.2); color: var(--neon-green); }
 
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
+        /* ปุ่ม Toggle Switch */
+        .switch { position: relative; display: inline-block; width: 60px; height: 30px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
         .slider {
-            position: absolute;
-            cursor: pointer;
+            position: absolute; cursor: pointer;
             top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #3b4256;
-            transition: .4s;
-            border-radius: 30px;
+            background-color: #3b4256; transition: .4s; border-radius: 30px;
         }
-
         .slider:before {
-            position: absolute;
-            content: "";
-            height: 22px;
-            width: 22px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
+            position: absolute; content: "";
+            height: 22px; width: 22px; left: 4px; bottom: 4px;
+            background-color: white; transition: .4s; border-radius: 50%;
         }
+        input:checked + .slider { background-color: var(--neon-cyan); box-shadow: 0 0 15px var(--neon-cyan); }
+        input:checked + .slider:before { transform: translateX(30px); }
 
-        /* เมื่อสวิตช์เปิด (Checked) */
-        input:checked + .slider {
-            background-color: var(--neon-cyan);
-            box-shadow: 0 0 15px var(--neon-cyan);
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(30px);
-        }
-
-        /* เส้นคั่น */
-        .divider {
-            height: 1px;
-            background-color: #3b4256;
-            border: none;
-            margin: 30px 0;
-        }
+        .divider { height: 1px; background-color: #3b4256; border: none; margin: 30px 0; }
 
         /* ส่วนท้าย Footer */
-        .footer {
-            text-align: center;
-            font-size: 13px;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
+        .footer { text-align: center; font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+        .footer .dev-title { color: var(--neon-cyan); font-weight: 600; font-size: 15px; margin-bottom: 5px; }
+        .footer p { margin: 2px 0; }
 
-        .footer .dev-title {
-            color: var(--neon-cyan);
-            font-weight: 600;
-            font-size: 15px;
-            margin-bottom: 5px;
+        /* ระบบแจ้งเตือน (Toast Notification) */
+        #toast {
+            position: fixed; top: 20px; right: -300px;
+            background-color: var(--card-bg); color: var(--text-main);
+            padding: 15px 20px; border-left: 4px solid var(--neon-cyan);
+            border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            transition: right 0.4s ease; font-size: 14px; z-index: 1000;
         }
-        
-        .footer p {
-            margin: 2px 0;
-        }
+        #toast.show { right: 20px; }
     </style>
 </head>
 <body>
+
+    <div id="toast">✅ ส่งคำสั่งสำเร็จ!</div>
 
     <div class="container">
         <div class="header">
@@ -159,32 +112,44 @@
             <p>ESP8266 IoT Control Panel</p>
         </div>
 
-        <div class="channel-item">
-            <div class="channel-label">💡 ช่องที่ 1 (D1)</div>
+        <div class="channel-item" id="box-ch1">
+            <div class="channel-label">
+                💡 ช่องที่ 1 (D1) 
+                <span class="status-badge status-off" id="status-ch1">ปิด</span>
+            </div>
             <label class="switch">
                 <input type="checkbox" id="ch1">
                 <span class="slider"></span>
             </label>
         </div>
 
-        <div class="channel-item">
-            <div class="channel-label">🔌 ช่องที่ 2 (D2)</div>
+        <div class="channel-item" id="box-ch2">
+            <div class="channel-label">
+                🔌 ช่องที่ 2 (D2)
+                <span class="status-badge status-off" id="status-ch2">ปิด</span>
+            </div>
             <label class="switch">
                 <input type="checkbox" id="ch2">
                 <span class="slider"></span>
             </label>
         </div>
 
-        <div class="channel-item">
-            <div class="channel-label">📺 ช่องที่ 3 (D5)</div>
+        <div class="channel-item" id="box-ch3">
+            <div class="channel-label">
+                📺 ช่องที่ 3 (D5)
+                <span class="status-badge status-off" id="status-ch3">ปิด</span>
+            </div>
             <label class="switch">
                 <input type="checkbox" id="ch3">
                 <span class="slider"></span>
             </label>
         </div>
 
-        <div class="channel-item">
-            <div class="channel-label">❄️ ช่องที่ 4 (D6)</div>
+        <div class="channel-item" id="box-ch4">
+            <div class="channel-label">
+                ❄️ ช่องที่ 4 (D6)
+                <span class="status-badge status-off" id="status-ch4">ปิด</span>
+            </div>
             <label class="switch">
                 <input type="checkbox" id="ch4">
                 <span class="slider"></span>
@@ -202,46 +167,108 @@
     </div>
 
     <script type="module">
+        // ---------------------------------------------------------
+        // 1. ฟังก์ชันจัดการ UI และแสดงการทำงาน (ทำให้เว็บดูมีชีวิต)
+        // ---------------------------------------------------------
+        function updateUI(channelId, isChecked) {
+            const statusBadge = document.getElementById(`status-${channelId}`);
+            const boxItem = document.getElementById(`box-${channelId}`);
+            const channelName = document.querySelector(`#box-${channelId} .channel-label`).textContent.split(' ')[1];
+
+            if (isChecked) {
+                statusBadge.textContent = "เปิด";
+                statusBadge.className = "status-badge status-on";
+                boxItem.classList.add("active");
+                showToast(`✅ สั่ง "เปิด" ${channelName} เรียบร้อย!`);
+            } else {
+                statusBadge.textContent = "ปิด";
+                statusBadge.className = "status-badge status-off";
+                boxItem.classList.remove("active");
+                showToast(`🛑 สั่ง "ปิด" ${channelName} เรียบร้อย!`);
+            }
+        }
+
+        // ฟังก์ชันแสดงกล่องแจ้งเตือน (Toast)
+        let toastTimeout;
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.textContent = message;
+            toast.classList.add("show");
+            
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove("show");
+            }, 3000); // ซ่อนหลังจาก 3 วินาที
+        }
+
+        // ---------------------------------------------------------
+        // 2. ส่วนของ Firebase (ถ้ายังไม่มี Config UI ก็ยังทำงานได้ปกติ)
+        // ---------------------------------------------------------
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-        // ⚠️ นำ Config จาก Firebase ของคุณมาใส่ตรงนี้
+        // ⚠️ ใส่ Config ของคุณตรงนี้เมื่อพร้อมเชื่อมต่อบอร์ดจริง
         const firebaseConfig = {
-            apiKey: "ใส่_API_KEY_ของคุณที่นี่",
-            authDomain: "ใส่_AUTH_DOMAIN_ของคุณที่นี่",
-            databaseURL: "ใส่_DATABASE_URL_ของคุณที่นี่",
-            projectId: "ใส่_PROJECT_ID_ของคุณที่นี่",
-            storageBucket: "ใส่_STORAGE_BUCKET_ของคุณที่นี่",
-            messagingSenderId: "ใส่_MESSAGING_SENDER_ID_ของคุณที่นี่",
-            appId: "ใส่_APP_ID_ของคุณที่นี่"
+            apiKey: "",
+            authDomain: "",
+            databaseURL: "",
+            projectId: "",
+            storageBucket: "",
+            messagingSenderId: "",
+            appId: ""
         };
 
-        // เริ่มต้นใช้งาน Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+        let db = null;
+        try {
+            // เช็คว่ามีการใส่ API Key หรือยัง ถ้ามีถึงจะต่อ Firebase
+            if (firebaseConfig.apiKey !== "") {
+                const app = initializeApp(firebaseConfig);
+                db = getDatabase(app);
+                console.log("Firebase Connected!");
+            } else {
+                console.warn("ยังไม่ได้ใส่ Firebase Config - ทำงานในโหมดทดสอบ UI (Mock Mode)");
+            }
+        } catch (error) {
+            console.error("Firebase Error:", error);
+        }
 
-        // ฟังก์ชันสำหรับควบคุมแต่ละช่อง
+        // ---------------------------------------------------------
+        // 3. ผูกคำสั่งปุ่มกดเข้ากับ UI และ Firebase
+        // ---------------------------------------------------------
         function setupChannel(checkboxId, dbPath) {
             const checkbox = document.getElementById(checkboxId);
-            const dbRef = ref(db, dbPath);
 
-            // 1. อ่านค่าจาก Firebase แบบ Real-time เพื่ออัปเดตสถานะสวิตช์บนหน้าจอ
-            onValue(dbRef, (snapshot) => {
-                const value = snapshot.val();
-                // 1 คือเปิด และ 0 คือปิด
-                checkbox.checked = (value === 1); 
-            });
+            // ถ้าต่อ Firebase ไว้ ให้ดึงค่าเริ่มต้นมาแสดง
+            if (db) {
+                const dbRef = ref(db, dbPath);
+                onValue(dbRef, (snapshot) => {
+                    const value = snapshot.val();
+                    const isChecked = (value === 1);
+                    checkbox.checked = isChecked;
+                    updateUI(checkboxId, isChecked); // อัปเดตสีและข้อความ
+                });
+            }
 
-            // 2. ส่งค่าไป Firebase เมื่อผู้ใช้กดคลิกที่สวิตช์
+            // เมื่อผู้ใช้กดคลิกสวิตช์
             checkbox.addEventListener('change', (e) => {
-                const newState = e.target.checked ? 1 : 0;
-                set(dbRef, newState)
-                    .then(() => console.log(`${dbPath} ถูกเปลี่ยนเป็น ${newState}`))
-                    .catch((error) => console.error("เกิดข้อผิดพลาด: ", error));
+                const isChecked = e.target.checked;
+                const newState = isChecked ? 1 : 0;
+                
+                // 1. อัปเดตหน้าตาเว็บทันทีให้เห็นว่าทำงาน
+                updateUI(checkboxId, isChecked);
+
+                // 2. ส่งข้อมูลไป Firebase (ถ้าเชื่อมต่อไว้)
+                if (db) {
+                    const dbRef = ref(db, dbPath);
+                    set(dbRef, newState).catch(error => {
+                        console.error("ส่งข้อมูลไม่สำเร็จ:", error);
+                        showToast("❌ ขัดข้อง: ไม่สามารถส่งข้อมูลได้");
+                    });
+                }
             });
         }
 
-        // เชื่อมโยงสวิตช์บนหน้าเว็บ กับ Path ในฐานข้อมูล Firebase
+        // เริ่มต้นการทำงานทั้ง 4 ช่อง
         setupChannel('ch1', 'SmartHome/D1');
         setupChannel('ch2', 'SmartHome/D2');
         setupChannel('ch3', 'SmartHome/D5');
