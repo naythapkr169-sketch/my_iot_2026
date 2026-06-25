@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMART HOME - IoT Control Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #0b101e;
+            --card-bg: #1a1f2e;
+            --item-bg: #22283a;
+            --neon-cyan: #00ffff;
+            --text-main: #ffffff;
+            --text-muted: #8e95a5;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Kanit', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 400px;
+            border-radius: 20px;
+            padding: 30px 20px;
+            box-sizing: border-box;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* ส่วนหัว Header */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            color: var(--neon-cyan);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.6), 0 0 20px rgba(0, 255, 255, 0.4);
+        }
+
+        .header p {
+            margin: 5px 0 0 0;
+            font-size: 14px;
+            color: var(--text-main);
+        }
+
+        /* ส่วนสวิตช์ควบคุม */
+        .channel-item {
+            background-color: var(--item-bg);
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .channel-label {
+            font-size: 16px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ออกแบบปุ่ม Toggle Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #3b4256;
+            transition: .4s;
+            border-radius: 30px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        /* เมื่อสวิตช์เปิด (Checked) */
+        input:checked + .slider {
+            background-color: var(--neon-cyan);
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+
+        /* เส้นคั่น */
+        .divider {
+            height: 1px;
+            background-color: #3b4256;
+            border: none;
+            margin: 30px 0;
+        }
+
+        /* ส่วนท้าย Footer */
+        .footer {
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .footer .dev-title {
+            color: var(--neon-cyan);
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+        
+        .footer p {
+            margin: 2px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>SMART HOME</h1>
+            <p>ESP8266 IoT Control Panel</p>
+        </div>
+
+        <div class="channel-item">
+            <div class="channel-label">💡 ช่องที่ 1 (D1)</div>
+            <label class="switch">
+                <input type="checkbox" id="ch1">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <div class="channel-item">
+            <div class="channel-label">🔌 ช่องที่ 2 (D2)</div>
+            <label class="switch">
+                <input type="checkbox" id="ch2">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <div class="channel-item">
+            <div class="channel-label">📺 ช่องที่ 3 (D5)</div>
+            <label class="switch">
+                <input type="checkbox" id="ch3">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <div class="channel-item">
+            <div class="channel-label">❄️ ช่องที่ 4 (D6)</div>
+            <label class="switch">
+                <input type="checkbox" id="ch4">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <hr class="divider">
+
+        <div class="footer">
+            <div class="dev-title">ผู้พัฒนาระบบ</div>
+            <p>ชลธร ปิยมน</p>
+            <p>แผนกอิเล็กทรอนิกส์</p>
+            <p>วิทยาลัยสารพัดช่างศรีสะเกษ</p>
+        </div>
+    </div>
+
+    <script type="module">
+        // นำเข้าฟังก์ชันของ Firebase จาก CDN
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+
+        // ⚠️ นำ Config จาก Firebase ของคุณมาใส่ตรงนี้
+        const firebaseConfig = {
+            apiKey: "ใส่_API_KEY_ของคุณที่นี่",
+            authDomain: "ใส่_AUTH_DOMAIN_ของคุณที่นี่",
+            databaseURL: "ใส่_DATABASE_URL_ของคุณที่นี่",
+            projectId: "ใส่_PROJECT_ID_ของคุณที่นี่",
+            storageBucket: "ใส่_STORAGE_BUCKET_ของคุณที่นี่",
+            messagingSenderId: "ใส่_MESSAGING_SENDER_ID_ของคุณที่นี่",
+            appId: "ใส่_APP_ID_ของคุณที่นี่"
+        };
+
+        // เริ่มต้นใช้งาน Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // ฟังก์ชันสำหรับควบคุมแต่ละช่อง
+        function setupChannel(checkboxId, dbPath) {
+            const checkbox = document.getElementById(checkboxId);
+            const dbRef = ref(db, dbPath);
+
+            // 1. อ่านค่าจาก Firebase แบบ Real-time เพื่ออัปเดตสถานะสวิตช์บนหน้าจอ
+            onValue(dbRef, (snapshot) => {
+                const value = snapshot.val();
+                // สมมติว่าในฐานข้อมูล 1 คือเปิด และ 0 คือปิด (ปรับแก้ได้ตามโค้ด Arduino ของคุณ)
+                checkbox.checked = (value === 1); 
+            });
+
+            // 2. ส่งค่าไป Firebase เมื่อผู้ใช้กดคลิกที่สวิตช์
+            checkbox.addEventListener('change', (e) => {
+                const newState = e.target.checked ? 1 : 0;
+                set(dbRef, newState)
+                    .then(() => console.log(`${dbPath} ถูกเปลี่ยนเป็น ${newState}`))
+                    .catch((error) => console.error("เกิดข้อผิดพลาด: ", error));
+            });
+        }
+
+        // เชื่อมโยงสวิตช์บนหน้าเว็บ กับ Path ในฐานข้อมูล Firebase ของคุณ
+        // คุณสามารถเปลี่ยน "SmartHome/D1" เป็นชื่อ Path ที่คุณตั้งไว้ในบอร์ด ESP8266 ได้เลยครับ
+        setupChannel('ch1', 'SmartHome/D1');
+        setupChannel('ch2', 'SmartHome/D2');
+        setupChannel('ch3', 'SmartHome/D5');
+        setupChannel('ch4', 'SmartHome/D6');
+
+    </script>
+</body>
+</html>
