@@ -160,7 +160,7 @@
 
         <div class="footer">
             <div class="dev-title">ผู้พัฒนาระบบ</div>
-            <p> ฐาปกร สุขอุ้ม </p>
+            <p>ฐาปกร สุขอุ้ม</p>
             <p>แผนกอิเล็กทรอนิกส์</p>
             <p>วิทยาลัยสารพัดช่างศรีสะเกษ</p>
         </div>
@@ -202,25 +202,24 @@
         }
 
         // ---------------------------------------------------------
-        // 2. ส่วนของ Firebase (ถ้ายังไม่มี Config UI ก็ยังทำงานได้ปกติ)
+        // 2. ส่วนของ Firebase
         // ---------------------------------------------------------
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-        // ⚠️ ใส่ Config ของคุณตรงนี้เมื่อพร้อมเชื่อมต่อบอร์ดจริง
+        // Config ที่พร้อมใช้งานแล้ว
         const firebaseConfig = {
-           apiKey: "AIzaSyCTGTfRQAqBdUzxN13YME0Zig_ifCZZuFs",
-  authDomain: "yout2026.firebaseapp.com",
-  databaseURL: "https://yout2026-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "yout2026",
-  storageBucket: "yout2026.firebasestorage.app",
-  messagingSenderId: "1074145253957",
-  appId: "1:1074145253957:web:148201affedbd29812612c"
+            apiKey: "AIzaSyCTGTfRQAqBdUzxN13YME0Zig_ifCZZuFs",
+            authDomain: "yout2026.firebaseapp.com",
+            databaseURL: "https://yout2026-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "yout2026",
+            storageBucket: "yout2026.firebasestorage.app",
+            messagingSenderId: "1074145253957",
+            appId: "1:1074145253957:web:148201affedbd29812612c"
         };
 
         let db = null;
         try {
-            // เช็คว่ามีการใส่ API Key หรือยัง ถ้ามีถึงจะต่อ Firebase
             if (firebaseConfig.apiKey !== "") {
                 const app = initializeApp(firebaseConfig);
                 db = getDatabase(app);
@@ -238,26 +237,26 @@
         function setupChannel(checkboxId, dbPath) {
             const checkbox = document.getElementById(checkboxId);
 
-            // ถ้าต่อ Firebase ไว้ ให้ดึงค่าเริ่มต้นมาแสดง
+            // ดึงค่าเริ่มต้นมาแสดงจาก Firebase
             if (db) {
                 const dbRef = ref(db, dbPath);
                 onValue(dbRef, (snapshot) => {
                     const value = snapshot.val();
-                    const isChecked = (value === 1);
+                    const isChecked = (value === 1 || value === true); // รองรับทั้ง 1/0 และ true/false
                     checkbox.checked = isChecked;
-                    updateUI(checkboxId, isChecked); // อัปเดตสีและข้อความ
+                    updateUI(checkboxId, isChecked);
                 });
             }
 
             // เมื่อผู้ใช้กดคลิกสวิตช์
             checkbox.addEventListener('change', (e) => {
                 const isChecked = e.target.checked;
-                const newState = isChecked ? 1 : 0;
+                const newState = isChecked ? 1 : 0; // ส่งค่าเป็น 1 (เปิด) หรือ 0 (ปิด) ไปที่ Firebase
                 
-                // 1. อัปเดตหน้าตาเว็บทันทีให้เห็นว่าทำงาน
+                // อัปเดตหน้าตาเว็บทันที
                 updateUI(checkboxId, isChecked);
 
-                // 2. ส่งข้อมูลไป Firebase (ถ้าเชื่อมต่อไว้)
+                // ส่งข้อมูลไป Firebase
                 if (db) {
                     const dbRef = ref(db, dbPath);
                     set(dbRef, newState).catch(error => {
@@ -268,7 +267,7 @@
             });
         }
 
-        // เริ่มต้นการทำงานทั้ง 4 ช่อง
+        // เริ่มต้นการทำงานทั้ง 4 ช่อง (ตรงกับพิกัดบน Firebase)
         setupChannel('ch1', 'SmartHome/D1');
         setupChannel('ch2', 'SmartHome/D2');
         setupChannel('ch3', 'SmartHome/D5');
